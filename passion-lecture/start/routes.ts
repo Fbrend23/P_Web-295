@@ -57,11 +57,13 @@ router.group(() => {
   router.resource('authors', AuthorsController).apiOnly()
 
   // CRUD categories
-  router.group(() => {
-    router.post('', [CategoriesController, 'store'])
-    router.put(':category_id', [CategoriesController, 'update'])
-    router.delete(':category_id', [CategoriesController, 'destroy'])
-  })
+  router
+    .group(() => {
+      router.post('', [CategoriesController, 'store'])
+      router.put(':category_id', [CategoriesController, 'update'])
+      router.delete(':category_id', [CategoriesController, 'destroy'])
+    })
+    .prefix('categories')
 
   // CRUD users
   router.resource('users', UsersController).apiOnly()
