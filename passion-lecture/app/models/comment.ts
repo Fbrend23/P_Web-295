@@ -19,10 +19,10 @@ export default class Comment extends BaseModel {
   declare updatedAt: DateTime
 
   // FK
-  @column({ isPrimary: true })
+  @column()
   declare bookId: number
 
-  @column({ isPrimary: true })
+  @column()
   declare userId: number
 
   // Relations

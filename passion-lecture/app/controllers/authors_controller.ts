@@ -9,7 +9,7 @@ export default class AuthorsController {
     return response.ok(authors)
   }
 
-  // Add an author in the db
+  // Creates an author and add it to the db
   async store({ request, response }: HttpContext) {
     // Get data sent by user and validate the data
     const { firstName, lastName } = await request.validateUsing(authorValidator)
