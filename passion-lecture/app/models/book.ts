@@ -5,7 +5,6 @@ import Category from './category.js'
 import Author from './author.js'
 import User from './user.js'
 import Comment from './comment.js'
-import { HashManager } from '@adonisjs/core/hash'
 import Evaluation from './evaluation.js'
 
 export default class Book extends BaseModel {
