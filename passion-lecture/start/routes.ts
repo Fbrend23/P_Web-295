@@ -28,53 +28,52 @@ router.get('/categories', [CategoriesController, 'index'])
 // Show all books in one category
 router.get('/categories/:category_id/books', [CategoryBooksController, 'index'])
 
-router
-  .group(() => {
-    // CRUD Books
-    router
-      .group(() => {
-        router.get(':book_id', [BooksController, 'show'])
-        router.post('', [BooksController, 'store'])
-        router.put(':book_id', [BooksController, 'update'])
-        router.delete(':book_id', [BooksController, 'destroy'])
-      })
-      .prefix('books')
-
-    // CRUD comments
-    router
-      .group(() => {
-        router.resource('comments', CommentsController).apiOnly()
-      })
-      .prefix('books/:book_id')
-
-    // CRUD evaluations
-    router
-      .group(() => {
-        router.resource('evaluations', EvaluationsController).apiOnly()
-      })
-      .prefix('books/:book_id')
-
-    // CRUD authors
-    router.resource('authors', AuthorsController).apiOnly()
-
-    // CRUD categories
-    router.group(() => {
-      router.post('', [CategoriesController, 'store'])
-      router.put(':category_id', [CategoriesController, 'update'])
-      router.delete(':category_id', [CategoriesController, 'destroy'])
+router.group(() => {
+  // CRUD Books
+  router
+    .group(() => {
+      router.get(':book_id', [BooksController, 'show'])
+      router.post('', [BooksController, 'store'])
+      router.put(':book_id', [BooksController, 'update'])
+      router.delete(':book_id', [BooksController, 'destroy'])
     })
+    .prefix('books')
 
-    // CRUD users
-    router.resource('users', UsersController).apiOnly()
+  // CRUD comments
+  router
+    .group(() => {
+      router.resource('comments', CommentsController).apiOnly()
+    })
+    .prefix('books/:book_id')
 
-    // Show own books
-    router
-      .group(() => {
-        router.resource('books', UserBooksController).apiOnly()
-      })
-      .prefix('users/:user_id')
+  // CRUD evaluations
+  router
+    .group(() => {
+      router.resource('evaluations', EvaluationsController).apiOnly()
+    })
+    .prefix('books/:book_id')
+
+  // CRUD authors
+  router.resource('authors', AuthorsController).apiOnly()
+
+  // CRUD categories
+  router.group(() => {
+    router.post('', [CategoriesController, 'store'])
+    router.put(':category_id', [CategoriesController, 'update'])
+    router.delete(':category_id', [CategoriesController, 'destroy'])
   })
-  .use(middleware.auth())
+
+  // CRUD users
+  router.resource('users', UsersController).apiOnly()
+
+  // Show own books
+  router
+    .group(() => {
+      router.resource('books', UserBooksController).apiOnly()
+    })
+    .prefix('users/:user_id')
+})
+// .use(middleware.auth())
 
 router.group(() => {
   router.post('login', [AuthController, 'login'])
