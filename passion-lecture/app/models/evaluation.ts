@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 
-export default class Comment extends BaseModel {
+export default class Evaluation extends BaseModel {
   @column({ isPrimary: true })
   declare idBook: number
 
@@ -9,7 +9,7 @@ export default class Comment extends BaseModel {
   declare idUser: number
 
   @column()
-  declare comment: string
+  declare note: number
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
