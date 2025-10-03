@@ -1,4 +1,2 @@
 // import type { HttpContext } from '@adonisjs/core/http'
-
-export default class AuthorsController {
-}
+export default class AuthorsController {}
