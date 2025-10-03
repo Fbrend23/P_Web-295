@@ -1,15 +1,15 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 
-export default class TWrite extends BaseModel {
+export default class Author extends BaseModel {
   @column({ isPrimary: true })
-  declare id_writer: number
+  declare id: number
 
-  @column({ isPrimary: true })
-  declare last_name: string
+  @column()
+  declare lastName: string
 
-  @column({ isPrimary: true })
-  declare first_name: string
+  @column()
+  declare firstName: string
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
