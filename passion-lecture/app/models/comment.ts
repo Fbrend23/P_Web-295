@@ -1,12 +1,13 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
+import Book from './book.js'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import User from './user.js'
 
 export default class Comment extends BaseModel {
+  // Attributs
   @column({ isPrimary: true })
-  declare idBook: number
-
-  @column({ isPrimary: true })
-  declare idUser: number
+  declare id: number
 
   @column()
   declare comment: string
@@ -16,4 +17,18 @@ export default class Comment extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  // FK
+  @column({ isPrimary: true })
+  declare bookId: number
+
+  @column({ isPrimary: true })
+  declare userId: number
+
+  // Relations
+  @belongsTo(() => Book)
+  declare book: BelongsTo<typeof Book>
+
+  @belongsTo(() => User)
+  declare user: BelongsTo<typeof User>
 }

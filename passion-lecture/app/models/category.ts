@@ -1,5 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
+import Book from './book.js'
+import type { HasMany } from '@adonisjs/lucid/types/relations'
 
 export default class Category extends BaseModel {
   // Attributs
@@ -16,4 +18,6 @@ export default class Category extends BaseModel {
   declare updatedAt: DateTime
 
   // Relations
+  @hasMany(() => Book)
+  declare book: HasMany<typeof Book>
 }
