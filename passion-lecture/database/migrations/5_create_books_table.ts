@@ -6,31 +6,26 @@ export default class extends BaseSchema {
   async up() {
     this.schema.createTable(this.tableName, (table) => {
       // Attributs
-      table.increments('book_id').notNullable().unique()
+      table.increments('id').notNullable().unique()
       table.string('title', 255).notNullable().unique()
-      table.tinyint('number_of_pages').notNullable()
+      table.integer('number_of_pages').notNullable()
       table.string('pdf_link', 255).nullable().unique()
       table.text('abstract').notNullable()
       table.string('editor').notNullable()
-      table.tinyint('edition_year').notNullable()
+      table.integer('edition_year').notNullable()
       table.string('image_path', 255).nullable()
       table.timestamp('created_at')
       table.timestamp('updated_at')
 
       // FK
       // 1 book -> 1 category
-      table
-        .integer('category_fk')
-        .unsigned()
-        .references('category_id')
-        .inTable('categories')
-        .notNullable()
+      table.integer('category_fk').unsigned().references('id').inTable('categories').notNullable()
 
       // 1 book -> 1 author
-      table.integer('author_fk').unsigned().references('author_id').inTable('authors').notNullable()
+      table.integer('author_fk').unsigned().references('id').inTable('authors').notNullable()
 
       // 1 book -> 1 user
-      table.integer('user_fk').unsigned().references('user_id').inTable('users').notNullable()
+      table.integer('user_fk').unsigned().references('id').inTable('users').notNullable()
     })
   }
 

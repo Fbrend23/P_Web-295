@@ -15,7 +15,7 @@ export default class extends BaseSchema {
       table
         .integer('book_fk')
         .unsigned()
-        .references('book_id')
+        .references('id')
         .inTable('books')
         .onDelete('CASCADE')
         .notNullable()
@@ -24,7 +24,7 @@ export default class extends BaseSchema {
       table
         .integer('user_fk')
         .unsigned()
-        .references('user_id')
+        .references('id')
         .inTable('users')
         .onDelete('CASCADE')
         .notNullable()

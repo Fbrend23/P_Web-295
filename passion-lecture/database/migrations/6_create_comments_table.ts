@@ -6,7 +6,7 @@ export default class extends BaseSchema {
   async up() {
     this.schema.createTable(this.tableName, (table) => {
       // Attributs
-      table.increments('comment_id')
+      table.increments('id')
       table.string('comment').notNullable()
       table.timestamp('created_at').notNullable()
       table.timestamp('updated_at').nullable()
@@ -16,7 +16,7 @@ export default class extends BaseSchema {
       table
         .integer('book_fk')
         .unsigned()
-        .references('book_id')
+        .references('id')
         .inTable('books')
         .onDelete('CASCADE')
         .notNullable()
@@ -25,7 +25,7 @@ export default class extends BaseSchema {
       table
         .integer('user_fk')
         .unsigned()
-        .references('user_id')
+        .references('id')
         .inTable('users')
         .onDelete('CASCADE')
         .notNullable()
