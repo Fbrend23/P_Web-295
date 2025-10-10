@@ -1,0 +1,22 @@
+meta {
+  name: Add a comment
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:3333/books/1/comments
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "content": "TROP NUL",
+    "user_id": 1
+  }
+}
+
+settings {
+  encodeUrl: true
+}

@@ -10,6 +10,7 @@ export default class UserBooksController {
   async index({ params, response }: HttpContext) {
     //Retrieve the user whose ID is in the parameter
     const user = await User.findOrFail(params.user_id)
+
     // Loading books and
     // for each books, we preload the teacher
     await user.load('book')

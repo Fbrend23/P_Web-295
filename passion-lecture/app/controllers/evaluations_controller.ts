@@ -11,17 +11,21 @@ export default class EvaluationsController {
     //Récupération des commentaire avec le book_id
     const book = await Book.findOrFail(params.book_id)
     //Chargement des commentaire et des users
-    await book.load('evaluation', (query) => {
-      query.preload('user')
-    })
-    return response.ok(book.evaluation)
+    await book.load('evaluation')
+
+    const evaluations = book.evaluation.map((x) => x.note)
+
+    const average = evaluations.reduce((a, b) => a + b) / evaluations.length
+
+    return response.ok(average)
   }
 
   async store({ params, request, response }: HttpContext) {
     //TODO validator
 
-    const { note } = request.validateUsing(evaluationValidator)
+    const { note, userId } = await request.validateUsing(evaluationValidator)
     // TODO auth
+    // FAIRE EN SORTE QUE UNE EVALUATION PAR LIVRE PAR UTILISATEUR
     // const user = auth.user!
     // const userId = user.id
 
@@ -30,7 +34,7 @@ export default class EvaluationsController {
     const evaluation = await Evaluation.create({
       note,
       bookId: params.book_id,
-      //userId
+      userId,
     })
     return response.created(evaluation)
   }

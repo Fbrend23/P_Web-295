@@ -1,0 +1,15 @@
+meta {
+  name: Get all comments
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:3333/books/1/comments
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

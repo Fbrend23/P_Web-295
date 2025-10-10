@@ -19,7 +19,7 @@ export default class CommentsController {
    * Ajouter un nouveau commentaire au bookId
    */
   async store({ params, request, response }: HttpContext) {
-    const { content } = await request.validateUsing(commentValidator)
+    const { content, userId } = await request.validateUsing(commentValidator)
     // TODO auth
     // const user = auth.user!
     // const userId = user.id
@@ -29,7 +29,7 @@ export default class CommentsController {
     const commentaire = await Comment.create({
       content,
       bookId: params.book_id,
-      //userId
+      userId,
     })
     return response.created(commentaire)
   }
