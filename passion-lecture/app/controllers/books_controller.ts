@@ -50,7 +50,7 @@ export default class BooksController {
     return response.ok(books)
   }
 
-  async store({ request, response, auth}: HttpContext) {
+  async store({ request, response, auth }: HttpContext) {
     // Retrieval of data sent by the client and validation of data
     const {
       title,
@@ -62,11 +62,13 @@ export default class BooksController {
       editionYear,
       abstract,
       imagePath,
+      // A CHANGER QUAND AUTH
+      userId,
     } = await request.validateUsing(bookValidator)
 
     // Récupération de l'utilisateur authentifié
-    const user = auth.user!
-    const userId = user.id;
+    // const user = auth.user!
+    // const userId = user.id
 
     // Creating a new book with validated data
     const book = await Book.create({
@@ -85,7 +87,7 @@ export default class BooksController {
   }
 
   async show({ params, response }: HttpContext) {
-    const books = await Book.findOrFail(params.id)
+    const books = await Book.findOrFail(params.book_id)
     return response.ok(books)
   }
 
@@ -103,7 +105,7 @@ export default class BooksController {
       imagePath,
     } = await request.validateUsing(bookValidator)
 
-    const book = await Book.findOrFail(params.id)
+    const book = await Book.findOrFail(params.book_id)
 
     ///VERIFIER QUE C'EST L'USER QUI A CREE QUI LE MODIFIE
 
@@ -125,12 +127,12 @@ export default class BooksController {
   }
 
   async destroy({ params, response }: HttpContext) {
-    const book = await Book.findOrFail(params.id)
+    const book = await Book.findOrFail(params.book_id)
     // delete
-      
+
     ///VERIFIER QUE C'EST L'USER QUI A CREE QUI LE DETRUIT
 
     await book.delete()
-    return response.noContent()
+    return response.ok(book)
   }
 }
