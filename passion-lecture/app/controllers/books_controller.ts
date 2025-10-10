@@ -50,7 +50,7 @@ export default class BooksController {
     return response.ok(books)
   }
 
-  async store({ request, response }: HttpContext) {
+  async store({ request, response, auth}: HttpContext) {
     // Retrieval of data sent by the client and validation of data
     const {
       title,
@@ -64,11 +64,16 @@ export default class BooksController {
       imagePath,
     } = await request.validateUsing(bookValidator)
 
+    // Récupération de l'utilisateur authentifié
+    const user = auth.user!
+    const userId = user.id;
+
     // Creating a new book with validated data
     const book = await Book.create({
       title,
       authorId,
       categoryId,
+      userId,
       numberOfPages,
       pdfLink,
       editor,
@@ -100,6 +105,8 @@ export default class BooksController {
 
     const book = await Book.findOrFail(params.id)
 
+    ///VERIFIER QUE C'EST L'USER QUI A CREE QUI LE MODIFIE
+
     // Update and save
     book.merge({
       title,
@@ -120,6 +127,9 @@ export default class BooksController {
   async destroy({ params, response }: HttpContext) {
     const book = await Book.findOrFail(params.id)
     // delete
+      
+    ///VERIFIER QUE C'EST L'USER QUI A CREE QUI LE DETRUIT
+
     await book.delete()
     return response.noContent()
   }
