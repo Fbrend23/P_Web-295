@@ -11,7 +11,7 @@ import Book from './book.js'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['username'],
-  passwordColumnName: 'hashPassword', //à vériier, anciennement 'password'
+  passwordColumnName: 'hashPassword', //à vérifier, anciennement
 })
 
 export default class User extends compose(BaseModel, AuthFinder) {
