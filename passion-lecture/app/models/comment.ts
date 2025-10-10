@@ -10,7 +10,7 @@ export default class Comment extends BaseModel {
   declare id: number
 
   @column()
-  declare comment: string
+  declare content: string
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

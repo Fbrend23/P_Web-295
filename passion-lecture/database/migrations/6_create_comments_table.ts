@@ -7,7 +7,7 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       // Attributs
       table.increments('id')
-      table.string('comment').notNullable()
+      table.string('content').notNullable()
       table.timestamp('created_at').notNullable()
       table.timestamp('updated_at').nullable()
 
