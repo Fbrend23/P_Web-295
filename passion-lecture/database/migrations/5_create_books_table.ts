@@ -19,13 +19,13 @@ export default class extends BaseSchema {
 
       // FK
       // 1 book -> 1 category
-      table.integer('category_fk').unsigned().references('id').inTable('categories').notNullable()
+      table.integer('category_id').unsigned().references('id').inTable('categories').notNullable()
 
       // 1 book -> 1 author
-      table.integer('author_fk').unsigned().references('id').inTable('authors').notNullable()
+      table.integer('author_id').unsigned().references('id').inTable('authors').notNullable()
 
       // 1 book -> 1 user
-      table.integer('user_fk').unsigned().references('id').inTable('users').notNullable()
+      table.integer('user_id').unsigned().references('id').inTable('users').notNullable()
     })
   }
 
