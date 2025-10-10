@@ -13,7 +13,7 @@ export default class extends BaseSchema {
       // Relations
       // 1 comment -> 1 book
       table
-        .integer('book_fk')
+        .integer('book_id')
         .unsigned()
         .references('id')
         .inTable('books')
@@ -22,7 +22,7 @@ export default class extends BaseSchema {
 
       // 1 comment -> 1 user
       table
-        .integer('user_fk')
+        .integer('user_id')
         .unsigned()
         .references('id')
         .inTable('users')
