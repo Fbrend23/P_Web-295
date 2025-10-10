@@ -1,0 +1,22 @@
+meta {
+  name: Create one author
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:3333/authors
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "firstName": "Brendan",
+    "lastName": "Fleurdelys"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

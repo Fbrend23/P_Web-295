@@ -1,0 +1,21 @@
+meta {
+  name: Create one category
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:3333/categories
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "label": "Comédie"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

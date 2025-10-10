@@ -1,0 +1,30 @@
+meta {
+  name: Update a book
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://localhost:3333/books/16
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "Sa majesté des mouches",
+    "authorId": 1,
+    "categoryId": 1,
+    "numberOfPages": 100,
+    "pdfLink": "www.test.com",
+    "editor": "Moi",
+    "editionYear": 1956,
+    "abstract": "C'est l'histoire de jeunes garçons dans une île tous seuls",
+    "imagePath": "",
+    "userId": 1
+  }
+}
+
+settings {
+  encodeUrl: true
+}

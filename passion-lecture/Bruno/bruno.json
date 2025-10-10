@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "P_Web-Passion-lecture",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
