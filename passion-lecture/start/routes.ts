@@ -38,14 +38,12 @@ router.group(() => {
       router.delete(':book_id', [BooksController, 'destroy'])
     })
     .prefix('books')
-
   // CRUD comments
   router
     .group(() => {
       router.resource('comments', CommentsController).apiOnly()
     })
     .prefix('books/:book_id')
-
   // CRUD evaluations
   router
     .group(() => {
@@ -76,7 +74,6 @@ router.group(() => {
     .prefix('users/:user_id')
 })
 // .use(middleware.auth())
-
 router.group(() => {
   router.post('login', [AuthController, 'login'])
   router.post('logout', [AuthController, 'logout']).use(middleware.auth())
