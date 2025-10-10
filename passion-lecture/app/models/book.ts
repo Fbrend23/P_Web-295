@@ -31,7 +31,7 @@ export default class Book extends BaseModel {
   declare editionYear: number
 
   @column()
-  declare imagePath: string
+  declare imagePath: string | null
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
