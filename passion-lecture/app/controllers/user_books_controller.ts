@@ -11,8 +11,7 @@ export default class UserBooksController {
     //Retrieve the user whose ID is in the parameter
     const user = await User.findOrFail(params.user_id)
 
-    // Loading books and
-    // for each books, we preload the teacher
+    // Loading books
     await user.load('book')
     return response.ok(user.book)
   }

@@ -73,8 +73,13 @@ router.group(() => {
     })
     .prefix('users/:user_id')
 })
-// .use(middleware.auth())
-router.group(() => {
-  router.post('login', [AuthController, 'login'])
-  router.post('logout', [AuthController, 'logout']).use(middleware.auth())
-})
+.use(middleware.auth())
+
+// Authentication paths 
+router 
+  .group(() => { 
+    router.post('register', [AuthController, 'register']) 
+    router.post('login', [AuthController, 'login']) 
+    router.post('logout', [AuthController, 'logout']).use(middleware.auth()) 
+  }) 
+  .prefix('user') 

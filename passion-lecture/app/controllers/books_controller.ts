@@ -61,14 +61,12 @@ export default class BooksController {
       editor,
       editionYear,
       abstract,
-      imagePath,
-      // A CHANGER QUAND AUTH
-      userId,
+      imagePath
     } = await request.validateUsing(bookValidator)
 
-    // Récupération de l'utilisateur authentifié
-    // const user = auth.user!
-    // const userId = user.id
+    // Recovery of the authenticated user
+    const user = auth.user!
+    const userId = user.id
 
     // Creating a new book with validated data
     const book = await Book.create({
