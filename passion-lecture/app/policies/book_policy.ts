@@ -5,8 +5,8 @@ import type { AuthorizerResponse } from '@adonisjs/bouncer/types'
 
 export default class BookPolicy extends BasePolicy {
   private async isOwner(user: User, book: Book): Promise<boolean> {
-    const owner = await User.query()
-      .where('id', book.userId)
+    const owner = await Book.query()
+      .where('id', book.id)
       .where('userId', user.id)
       .select('id')
       .first()

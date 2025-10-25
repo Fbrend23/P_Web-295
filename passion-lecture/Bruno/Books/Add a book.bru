@@ -7,19 +7,23 @@ meta {
 post {
   url: http://localhost:3333/books
   body: json
-  auth: inherit
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{mimo2}}
 }
 
 body:json {
   {
-    "title": "aaaaaa",
+    "title": "Test Bouncer 2",
     "authorId": 1,
     "categoryId": 1,
     "numberOfPages": 1,
-    "pdfLink": "www.tefaaaaast.com",
+    "pdfLink": "www.testbouncer.com",
     "editor": "Moi",
     "editionYear": 1954,
-    "abstract": "C'est l'histoire de jeunes garçons dans une île tous seuls",
+    "abstract": "C'est le test du bouncer des livres",
     "imagePath": ""
   }
 }
