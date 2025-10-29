@@ -8,9 +8,9 @@ export default class EvaluationsController {
   //Afficher tous les évaluations de book_id
   // /books/#id/evaluation
   async index({ params, response }: HttpContext) {
-    //Récupération des commentaire avec le book_id
+    //Récupération des evaluation avec le book_id
     const book = await Book.findOrFail(params.book_id)
-    //Chargement des commentaire et des users
+    //Chargement des evaluation et des users
     await book.load('evaluation')
 
     const evaluations = book.evaluation.map((x) => x.note)
@@ -20,16 +20,12 @@ export default class EvaluationsController {
     return response.ok(average)
   }
 
-  async store({ params, request, response, auth}: HttpContext) {
-    //TODO validator
-
+  async store({ params, request, response, auth }: HttpContext) {
     const { note } = await request.validateUsing(evaluationValidator)
-    // TODO auth
-    // FAIRE EN SORTE QUE UNE EVALUATION PAR LIVRE PAR UTILISATEUR
     const user = auth.user!
     const userId = user.id
 
-    // Création du commentaire
+    // Creating an evaluation
 
     const evaluation = await Evaluation.create({
       note,
