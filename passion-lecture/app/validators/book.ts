@@ -26,7 +26,6 @@ const bookValidator = vine.compile(
     editionYear: vine.number(),
     abstract: vine.string().minLength(2).maxLength(255),
     imagePath: vine.string().minLength(2).maxLength(255).nullable(),
-    userId: vine.number(),
   })
 )
 export { bookValidator }

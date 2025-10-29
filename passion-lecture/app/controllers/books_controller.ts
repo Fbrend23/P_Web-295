@@ -1,4 +1,5 @@
 import Book from '#models/book'
+import BookPolicy from '#policies/book_policy'
 import { bookValidator } from '#validators/book'
 import { getBooksQueryValidator } from '#validators/get_book_query'
 import type { HttpContext } from '@adonisjs/core/http'
@@ -62,13 +63,11 @@ export default class BooksController {
       editionYear,
       abstract,
       imagePath,
-      // A CHANGER QUAND AUTH
-      userId,
     } = await request.validateUsing(bookValidator)
 
-    // Récupération de l'utilisateur authentifié
-    // const user = auth.user!
-    // const userId = user.id
+    // Recovery of the authenticated user
+    const user = auth.user!
+    const userId = user.id
 
     // Creating a new book with validated data
     const book = await Book.create({
@@ -91,7 +90,7 @@ export default class BooksController {
     return response.ok(books)
   }
 
-  async update({ params, request, response }: HttpContext) {
+  async update({ params, request, response, bouncer }: HttpContext) {
     // Data recovery
     const {
       title,
@@ -107,7 +106,12 @@ export default class BooksController {
 
     const book = await Book.findOrFail(params.book_id)
 
-    ///VERIFIER QUE C'EST L'USER QUI A CREE QUI LE MODIFIE
+    // Check the permissions of the logged-in user
+    if (await bouncer.with(BookPolicy).denies('update', book)) {
+      return response.unauthorized({
+        message: 'You are not the creator of this book. You do not have the right to modify it.',
+      })
+    }
 
     // Update and save
     book.merge({
@@ -126,12 +130,16 @@ export default class BooksController {
     return response.created(book)
   }
 
-  async destroy({ params, response }: HttpContext) {
+  async destroy({ params, response, bouncer }: HttpContext) {
     const book = await Book.findOrFail(params.book_id)
-    // delete
 
-    ///VERIFIER QUE C'EST L'USER QUI A CREE QUI LE DETRUIT
-
+    // Vérifie les permissions de l'utilisateur connecté
+    if (await bouncer.with(BookPolicy).denies('delete', book)) {
+      return response.unauthorized({
+        message:
+          "You are not the creator of this book. You do not have the right to delete it.",
+      })
+    }
     await book.delete()
     return response.ok(book)
   }

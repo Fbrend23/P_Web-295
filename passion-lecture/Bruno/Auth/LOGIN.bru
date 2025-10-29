@@ -1,18 +1,19 @@
 meta {
-  name: Add an evaluation
+  name: LOGIN
   type: http
   seq: 2
 }
 
 post {
-  url: http://localhost:3333/books/15/evaluations
+  url: http://localhost:3333/user/login
   body: json
   auth: inherit
 }
 
 body:json {
   {
-    "note": 5
+    "username" : "mimo",
+    "hash_password" : "18rtg3wQ"
   }
 }
 

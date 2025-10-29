@@ -20,14 +20,14 @@ export default class EvaluationsController {
     return response.ok(average)
   }
 
-  async store({ params, request, response }: HttpContext) {
+  async store({ params, request, response, auth}: HttpContext) {
     //TODO validator
 
-    const { note, userId } = await request.validateUsing(evaluationValidator)
+    const { note } = await request.validateUsing(evaluationValidator)
     // TODO auth
     // FAIRE EN SORTE QUE UNE EVALUATION PAR LIVRE PAR UTILISATEUR
-    // const user = auth.user!
-    // const userId = user.id
+    const user = auth.user!
+    const userId = user.id
 
     // Création du commentaire
 

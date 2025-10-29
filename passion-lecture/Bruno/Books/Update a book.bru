@@ -5,26 +5,30 @@ meta {
 }
 
 put {
-  url: http://localhost:3333/books/16
+  url: http://localhost:3333/books/25
   body: json
-  auth: inherit
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{mimo2}}
 }
 
 body:json {
   {
-    "title": "Sa majesté des mouches",
+    "title": "Toujours le test 6",
     "authorId": 1,
     "categoryId": 1,
     "numberOfPages": 100,
-    "pdfLink": "www.test.com",
+    "pdfLink": "www.test6.com",
     "editor": "Moi",
     "editionYear": 1956,
     "abstract": "C'est l'histoire de jeunes garçons dans une île tous seuls",
-    "imagePath": "",
-    "userId": 1
+    "imagePath": ""
   }
 }
 
 settings {
   encodeUrl: true
+  timeout: 0
 }
