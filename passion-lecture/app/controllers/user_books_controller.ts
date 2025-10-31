@@ -4,11 +4,8 @@ import User from '#models/user'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class UserBooksController {
-  /**
-   * Display a list of resource
-   */
   async index({ params, response }: HttpContext) {
-    //Retrieve the user whose ID is in the parameter
+    // Retrieve the user whose ID is in the parameter
     const user = await User.findOrFail(params.user_id)
 
     // Loading books

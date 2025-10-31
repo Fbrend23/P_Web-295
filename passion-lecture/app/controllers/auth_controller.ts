@@ -4,50 +4,44 @@ import type { HttpContext } from '@adonisjs/core/http'
 
 export default class AuthController {
 
-   /**
-   * Créer un token OAT après validation des données utilisateurs
-   */
   async login({ request, response }: HttpContext) {
-    // Validation du nom d'utilisateur et mot de passe
+    // User name and password validation
     const { username, hash_password } = await request.validateUsing(loginValidator)
-    // Vérification qu'un utilisateur existe avec ce nom d'utilisateur et ce mot de passe
     const user = await User.verifyCredentials(username, hash_password)
-    // Génération d'un token OAT
+
+    // Generate an OAT token
     const token = await User.accessTokens.create(user)
-    // Retourne le token et les infos utilisateurs
+
+    // Return the token and user's infos
     return response.ok({
       token: token,
       ...user.serialize(),
     })
   }
 
-  /**
-   * Enregistre un utilisateur
-   */
   async register({ request, response }: HttpContext) {
-    // Validation des données utilisateurs
     const payload = await request.validateUsing(registerValidator)
-    // Création de l'utilisateur
+
+    // Create the user
     const user = await User.create(payload)
-    // Retourne les données utilisateurs
+
+    // Return user's infos
     return response.created(user)
   }
 
-  /**
-   * Supprime le token OAT de l'utilisateur connecté
-   */
   async logout({ auth, response }: HttpContext) {
-    // Récupère l'utilisateur connecté/authentifié
+    // Retrieves the logged-in/authenticated user and their token
     const user = auth.getUserOrFail()
-    // Récupère le token de l'utilisateur connecté
     const token = auth.user?.currentAccessToken.identifier
-    // Si le token n'existe pas, retourne une erreur HTTP 400
+
+    // If the token does not exist, return HTTP 400 error
     if (!token) {
       return response.badRequest({ message: 'Token not found' })
     }
-    // Supprime le token
+    // Delete the token
     await User.accessTokens.delete(user, token)
-    // Confirme à l'utilisateur que le logout est un succès
+    
+    // Confirm to the user that the logout was successful
     return response.ok({ message: 'Logged out' })
   }
 

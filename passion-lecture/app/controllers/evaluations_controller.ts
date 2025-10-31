@@ -6,16 +6,16 @@ import { evaluationValidator } from '#validators/evaluation'
 import db from '@adonisjs/lucid/services/db'
 
 export default class EvaluationsController {
-  //Afficher tous les évaluations de book_id
-  // /books/#id/evaluation
+  // Show all evaluations of a book --> /books/#id/evaluation
   async index({ params, response }: HttpContext) {
-    //Récupération des evaluation avec le book_id
+    // Retrieving evaluations with the book_id
     const book = await Book.findOrFail(params.book_id)
-    //Chargement des evaluation et des users
+
+    // Loading evaluations and users
     await book.load('evaluation')
 
+    // Calculation of the average evaluation
     const evaluations = book.evaluation.map((x) => x.note)
-
     const average = evaluations.reduce((a, b) => a + b) / evaluations.length
 
     return response.ok(average)
@@ -26,6 +26,7 @@ export default class EvaluationsController {
     const user = auth.user!
     const userId = user.id
 
+    // Checks that the user has not already evaluate this book
     const alreadyExistingEvaluation = await db
       .query()
       .from('evaluations')
@@ -40,12 +41,12 @@ export default class EvaluationsController {
     }
 
     // Creating an evaluation
-
     const evaluation = await Evaluation.create({
       note,
       bookId: params.book_id,
       userId,
     })
+
     return response.created(evaluation)
   }
 }

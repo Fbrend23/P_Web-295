@@ -21,15 +21,4 @@ export default class BookPolicy extends BasePolicy {
   async delete(user: User, book: Book) {
     return user.isAdmin === true || (await this.isOwner(user, book))
   }
-
-  /*
-  // Peut créer un commentaire (par défaut : tous les enseignants)
-  async create(user: User) {
-    return user.role === 'teacher' || user.role === 'admin'
-  }
-  // Peut voir un commentaire (par défaut : tous les enseignants)
-  async view(user: User, comment: Comment) {
-    return user.role === 'teacher' || user.role === 'admin'
-  }
-    */
 }
