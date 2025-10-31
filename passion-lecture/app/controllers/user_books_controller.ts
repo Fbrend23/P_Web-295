@@ -1,5 +1,4 @@
-//Tous les livres d'un utilisateur
-import Book from '#models/book'
+//All books from a user
 import User from '#models/user'
 import type { HttpContext } from '@adonisjs/core/http'
 

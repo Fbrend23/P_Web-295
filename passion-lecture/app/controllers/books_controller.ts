@@ -133,7 +133,7 @@ export default class BooksController {
   async destroy({ params, response, bouncer }: HttpContext) {
     const book = await Book.findOrFail(params.book_id)
 
-    // Vérifie les permissions de l'utilisateur connecté
+    // Check permisions of the connected user
     if (await bouncer.with(BookPolicy).denies('delete', book)) {
       return response.unauthorized({
         message: 'You are not the creator of this book. You do not have the right to delete it.',
