@@ -3,6 +3,7 @@ import type { HttpContext } from '@adonisjs/core/http'
 import Evaluation from '#models/evaluation'
 import Book from '#models/book'
 import { evaluationValidator } from '#validators/evaluation'
+import db from '@adonisjs/lucid/services/db'
 
 export default class EvaluationsController {
   //Afficher tous les évaluations de book_id
@@ -24,6 +25,19 @@ export default class EvaluationsController {
     const { note } = await request.validateUsing(evaluationValidator)
     const user = auth.user!
     const userId = user.id
+
+    const alreadyExistingEvaluation = await db
+      .query()
+      .from('evaluations')
+      .select('*')
+      .where('user_id', userId)
+      .where('book_id', params.book_id)
+
+    if (alreadyExistingEvaluation.length > 0) {
+      return response.notAcceptable(
+        "You can't add another evaluation to a book if you already have one."
+      )
+    }
 
     // Creating an evaluation
 
