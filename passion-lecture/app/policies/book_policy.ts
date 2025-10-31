@@ -1,7 +1,6 @@
 import User from '#models/user'
 import Book from '#models/book'
 import { BasePolicy } from '@adonisjs/bouncer'
-import type { AuthorizerResponse } from '@adonisjs/bouncer/types'
 
 export default class BookPolicy extends BasePolicy {
   private async isOwner(user: User, book: Book): Promise<boolean> {
@@ -15,12 +14,12 @@ export default class BookPolicy extends BasePolicy {
 
   // Can update a book
   async update(user: User, book: Book) {
-    return user.isAdmin === true || this.isOwner(user, book)
+    return user.isAdmin === true || (await this.isOwner(user, book))
   }
 
   // Can delete a book
   async delete(user: User, book: Book) {
-    return user.isAdmin === true || this.isOwner(user, book)
+    return user.isAdmin === true || (await this.isOwner(user, book))
   }
 
   /*

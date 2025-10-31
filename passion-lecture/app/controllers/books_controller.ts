@@ -136,8 +136,7 @@ export default class BooksController {
     // Vérifie les permissions de l'utilisateur connecté
     if (await bouncer.with(BookPolicy).denies('delete', book)) {
       return response.unauthorized({
-        message:
-          "You are not the creator of this book. You do not have the right to delete it.",
+        message: 'You are not the creator of this book. You do not have the right to delete it.',
       })
     }
     await book.delete()

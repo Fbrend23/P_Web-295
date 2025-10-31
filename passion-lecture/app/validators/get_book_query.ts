@@ -4,8 +4,8 @@ const getBooksQueryValidator = vine.compile(
   vine.object({
     page: vine.number().min(1).optional(),
     limit: vine.number().min(1).max(100).optional(),
-    sort: vine.string().in(['name', 'firstname', 'created_at']).optional(), //trier par nom, prénom ou date de création
-    order: vine.string().in(['asc', 'desc']).optional(), // ordre de tri
+    sort: vine.string().in(['name', 'firstname', 'created_at']).optional(),
+    order: vine.string().in(['asc', 'desc']).optional(),
     categoryId: vine.number().optional(),
     authorId: vine.number().optional(),
     userId: vine

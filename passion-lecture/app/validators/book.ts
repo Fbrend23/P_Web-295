@@ -1,31 +1,37 @@
-import Author from '#models/author'
-import Category from '#models/category'
 import vine from '@vinejs/vine'
-
-// const author = await Author.all()
-// const authorIds = await author.map((s) => s.id)
-
-// const category = await Category.all()
-// const categoryIds = category.map((c) => c.id)
-
-// ------------------------------------------
-// TODO trouver un autre moyen de valider les si les id sont existants.
-// Sur une installation propre celà lance des requetes sql dans le vide au lancement du serveur node
-// Du coup impossible de faire les migrations initiales et d'init le serveur (npm run dev)
-// Bisous, Brendan.
-// ------------------------------------------
 
 const bookValidator = vine.compile(
   vine.object({
-    title: vine.string().minLength(2).maxLength(255),
-    categoryId: vine.number() /*.in(categoryIds)*/,
-    authorId: vine.number() /*.in(authorIds)*/,
+    title: vine
+      .string()
+      .minLength(2)
+      .maxLength(255)
+      .unique(async (query, field) => {
+        const category = await query.from('books').where('title', field).first()
+        return !category
+      }),
+    categoryId: vine.number().exists(async (db, value) => {
+      const category = await db.from('categories').where('id', value).first()
+      return !!category
+    }),
+    authorId: vine.number().exists(async (db, value) => {
+      const author = await db.from('authors').where('id', value).first()
+      return !!author
+    }),
     numberOfPages: vine.number(),
-    pdfLink: vine.string().minLength(2).maxLength(255),
+    pdfLink: vine
+      .string()
+      .minLength(2)
+      .maxLength(255)
+      .unique(async (query, field) => {
+        const category = await query.from('books').where('pdf_link', field).first()
+        return !category
+      }),
     editor: vine.string().minLength(2).maxLength(255),
     editionYear: vine.number(),
     abstract: vine.string().minLength(2).maxLength(255),
     imagePath: vine.string().minLength(2).maxLength(255).nullable(),
   })
 )
+
 export { bookValidator }
