@@ -3,7 +3,6 @@ import { loginValidator, registerValidator } from '#validators/auth'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class AuthController {
-
   async login({ request, response }: HttpContext) {
     // User name and password validation
     const { username, hash_password } = await request.validateUsing(loginValidator)
@@ -40,9 +39,8 @@ export default class AuthController {
     }
     // Delete the token
     await User.accessTokens.delete(user, token)
-    
+
     // Confirm to the user that the logout was successful
     return response.ok({ message: 'Logged out' })
   }
-
 }

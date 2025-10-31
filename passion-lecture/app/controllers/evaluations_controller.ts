@@ -35,9 +35,9 @@ export default class EvaluationsController {
       .where('book_id', params.book_id)
 
     if (alreadyExistingEvaluation.length > 0) {
-      return response.notAcceptable(
-        "You can't add another evaluation to a book if you already have one."
-      )
+      return response
+        .status(409)
+        .json({ error: "You can't add another evaluation to a book if you already have one." })
     }
 
     // Creating an evaluation

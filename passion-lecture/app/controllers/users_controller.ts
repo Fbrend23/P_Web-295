@@ -7,7 +7,7 @@ export default class UsersController {
     //Retrieve the user whose ID is in the parameter
     const user = await User.findOrFail(params.id)
 
-    // Loading all the books oth the user 
+    // Loading all the books oth the user
     const books = await Book.query().where('user_id', user.id)
 
     // Retrieving the last book created by the user and the number of books created
