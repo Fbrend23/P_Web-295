@@ -18,7 +18,7 @@ jobs:
           node-version: 24
 
       - name: Change le répertoire
-        run: cd ./passion-lecture/
+        run: cd P_Web-295/passion-lecture
 
       - name: Verifie le répertoire
         run: pwd
