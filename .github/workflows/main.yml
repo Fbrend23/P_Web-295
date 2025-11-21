@@ -1,0 +1,27 @@
+name: API Rest - Déploiement
+
+on:
+  push:
+    branches:
+      - actions/workflow-mael
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout du code source
+        uses: actions/checkout@v5
+
+      - name: Install Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: Change le répertoire
+        run: cd ./passion-lecture/
+
+      - name: Installe les dépendances
+        run: npm ci
+
+      - name: Audit des packages
+        run: npm audit
