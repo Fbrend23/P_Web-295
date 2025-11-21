@@ -18,6 +18,9 @@ jobs:
           node-version: 24
 
       - name: Change le répertoire
+        run: cd passion-lecture
+
+      - name: Change le répertoire
         run: ls
 
       - name: Verifie le répertoire
