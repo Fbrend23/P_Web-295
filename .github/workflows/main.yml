@@ -8,6 +8,11 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./passion-lecture
+
     steps:
       - name: Checkout du code source
         uses: actions/checkout@v5
@@ -16,9 +21,6 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 24
-
-      - name: Change le répertoire
-        run: cd passion-lecture
 
       - name: Change le répertoire
         run: ls
