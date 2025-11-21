@@ -20,6 +20,9 @@ jobs:
       - name: Change le répertoire
         run: cd ./passion-lecture/
 
+      - name: Verifie le répertoire
+        run: pwd
+
       - name: Installe les dépendances
         run: npm ci
 
