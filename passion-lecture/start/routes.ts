@@ -75,7 +75,7 @@ router
       })
       .prefix('users/:user_id')
   })
-  .use(middleware.auth())
+  //.use(middleware.auth())
 
 // Authentication paths
 router

@@ -86,8 +86,13 @@ export default class BooksController {
   }
 
   async show({ params, response }: HttpContext) {
-    const books = await Book.findOrFail(params.book_id)
-    return response.ok(books)
+    //const books = (await Book.findOrFail(params.book_id)).preload()
+    const book = await Book.query()
+      .where('id', params.book_id)
+      .preload('author') // précharge l'auteur
+      .preload('user')   // précharge le créateur du livre
+      .firstOrFail()
+    return response.ok(book)
   }
 
   async update({ params, request, response, bouncer }: HttpContext) {
