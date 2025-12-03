@@ -89,6 +89,7 @@ export default class BooksController {
     //const books = (await Book.findOrFail(params.book_id)).preload()
     const book = await Book.query()
       .where('id', params.book_id)
+      .preload('category')
       .preload('author') // précharge l'auteur
       .preload('user')   // précharge le créateur du livre
       .firstOrFail()
