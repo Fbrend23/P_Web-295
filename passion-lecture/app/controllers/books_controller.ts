@@ -21,7 +21,7 @@ export default class BooksController {
 
     //Search filters
     if (categoryId) {
-      query.where('category_fk', categoryId)
+      query.where('category_id', categoryId)
     }
 
     if (authorId) {
