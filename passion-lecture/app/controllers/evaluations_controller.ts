@@ -49,4 +49,15 @@ export default class EvaluationsController {
 
     return response.created(evaluation)
   }
+
+  async showMe({ params, request, response, auth }: HttpContext) {
+    const book = await Book.findOrFail(params.book_id)
+
+    const user = auth.user!
+    const userId = user.id
+
+    const ev = await Evaluation.query().where('user_id', userId).where('book_id', params.book_id)
+
+    return response.ok(ev)
+  }
 }
