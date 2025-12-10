@@ -49,7 +49,9 @@ router
     // CRUD evaluations
     router
       .group(() => {
-        router.resource('evaluations', EvaluationsController).apiOnly()
+        router.get('evaluations', [EvaluationsController, 'index'])
+        router.post('evaluations', [EvaluationsController, 'store'])
+        router.get('evaluations/me', [EvaluationsController, 'showMe'])
       })
       .prefix('books/:book_id')
 

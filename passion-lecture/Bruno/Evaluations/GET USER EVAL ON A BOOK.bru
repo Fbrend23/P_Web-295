@@ -1,11 +1,11 @@
 meta {
-  name: Get average evaluations
+  name: GET USER EVAL ON A BOOK
   type: http
-  seq: 1
+  seq: 3
 }
 
 get {
-  url: http://localhost:3333/books/1/evaluations
+  url: http://localhost:3333/books/1/evaluations/me
   body: none
   auth: bearer
 }
