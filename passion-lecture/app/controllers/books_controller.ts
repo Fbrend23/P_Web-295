@@ -86,8 +86,17 @@ export default class BooksController {
   }
 
   async show({ params, response }: HttpContext) {
-    const books = await Book.findOrFail(params.book_id)
-    return response.ok(books)
+    const book = await Book.findOrFail(params.book_id)
+    await book.load('author', (query) => {
+      query.select('firstName', 'lastName')
+    })
+    await book.load('user', (query) => {
+      query.select('username')
+    })
+    await book.load('category', (query) => {
+      query.select('label')
+    })
+    return response.ok(book)
   }
 
   async update({ params, request, response, bouncer }: HttpContext) {
