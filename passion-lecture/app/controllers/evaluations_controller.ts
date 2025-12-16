@@ -14,11 +14,12 @@ export default class EvaluationsController {
     // Loading evaluations and users
     await book.load('evaluation')
 
-    // Calculation of the average evaluation
+    // Calculation of the average evaluation and the number of evaluations
     const evaluations = book.evaluation.map((x) => x.note)
-    const average = evaluations.reduce((a, b) => a + b) / evaluations.length
+    const count = evaluations.length
+    const average = count > 0 ? evaluations.reduce((a, b) => a + b) / evaluations.length : null
 
-    return response.ok(average)
+    return response.ok({average, count})
   }
 
   async store({ params, request, response, auth }: HttpContext) {
