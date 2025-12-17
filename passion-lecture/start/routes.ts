@@ -31,8 +31,8 @@ router.get('/categories', [CategoriesController, 'index'])
 router.get('/categories/:category_id/books', [CategoryBooksController, 'index'])
 
 // Get image and pdf
-router.get('/uploads/books/images/:filename', [FilesController, 'getImage'])
-router.get('/uploads/books/pdf/:filename', [FilesController, 'getPDF'])
+router.get('/uploads/books/images/:fileName', [FilesController, 'getImage'])
+router.get('/uploads/books/pdf/:fileName', [FilesController, 'getPDF'])
 
 router
   .group(() => {
