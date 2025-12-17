@@ -3,6 +3,7 @@ import BookPolicy from '#policies/book_policy'
 import { bookValidator } from '#validators/book'
 import { getBooksQueryValidator } from '#validators/get_book_query'
 import type { HttpContext } from '@adonisjs/core/http'
+import app from '@adonisjs/core/services/app'
 
 export default class BooksController {
   async index({ response, request }: HttpContext) {
@@ -53,17 +54,21 @@ export default class BooksController {
 
   async store({ request, response, auth }: HttpContext) {
     // Retrieval of data sent by the client and validation of data
-    const {
-      title,
-      authorId,
-      categoryId,
-      numberOfPages,
-      pdfLink,
-      editor,
-      editionYear,
-      abstract,
-      imagePath,
-    } = await request.validateUsing(bookValidator)
+    const data = await request.validateUsing(bookValidator)
+    let imagePath
+    let pdfLink
+
+    // 1. Handle Image
+    if (data.image) {
+      await data.image.move(app.makePath('public/uploads/books/images'))
+      imagePath = `/uploads/books/images/${data.image.fileName}`
+    }
+
+    // 2. Handle PDF
+    if (data.pdf) {
+      await data.pdf.move(app.makePath('public/uploads/books/pdf'))
+      pdfLink = `/uploads/books/pdf/${data.pdf.fileName}`
+    }
 
     // Recovery of the authenticated user
     const user = auth.user!
@@ -71,16 +76,16 @@ export default class BooksController {
 
     // Creating a new book with validated data
     const book = await Book.create({
-      title,
-      authorId,
-      categoryId,
-      userId,
-      numberOfPages,
+      title: data.title,
+      authorId: data.authorId,
+      categoryId: data.categoryId,
+      numberOfPages: data.numberOfPages,
+      editor: data.editor,
+      editionYear: data.editionYear,
+      abstract: data.abstract,
       pdfLink,
-      editor,
-      editionYear,
-      abstract,
       imagePath,
+      userId,
     })
     return response.created(book)
   }
@@ -100,43 +105,38 @@ export default class BooksController {
   }
 
   async update({ params, request, response, bouncer }: HttpContext) {
-    // Data recovery
-    const {
-      title,
-      authorId,
-      categoryId,
-      numberOfPages,
-      pdfLink,
-      editor,
-      editionYear,
-      abstract,
-      imagePath,
-    } = await request.validateUsing(bookValidator)
-
+    const data = await request.validateUsing(bookValidator)
     const book = await Book.findOrFail(params.book_id)
 
-    // Check the permissions of the logged-in user
     if (await bouncer.with(BookPolicy).denies('update', book)) {
-      return response.unauthorized({
-        message: 'You are not the creator of this book. You do not have the right to modify it.',
-      })
+      return response.unauthorized({ message: 'Unauthorized' })
     }
 
-    // Update and save
-    book.merge({
-      title,
-      authorId,
-      categoryId,
-      numberOfPages,
-      pdfLink,
-      editor,
-      editionYear,
-      abstract,
-      imagePath,
-    })
-    await book.save()
+    // 1. Handle Image
+    if (data.image) {
+      await data.image.move(app.makePath('public/uploads/books/images'))
+      book.imagePath = `/uploads/books/images/${data.image.fileName}`
+    }
 
-    return response.created(book)
+    // 2. Handle PDF
+    if (data.pdf) {
+      await data.pdf.move(app.makePath('public/uploads/books/pdf'))
+      book.pdfLink = `/uploads/books/pdf/${data.pdf.fileName}`
+    }
+
+    // 3. Merge other fields (excluding files which we handled above)
+    book.merge({
+      title: data.title,
+      authorId: data.authorId,
+      categoryId: data.categoryId,
+      numberOfPages: data.numberOfPages,
+      editor: data.editor,
+      editionYear: data.editionYear,
+      abstract: data.abstract,
+    })
+
+    await book.save()
+    return response.ok(book)
   }
 
   async destroy({ params, response, bouncer }: HttpContext) {
