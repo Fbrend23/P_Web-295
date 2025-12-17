@@ -19,7 +19,7 @@ export default class Book extends BaseModel {
   declare numberOfPages: number
 
   @column()
-  declare pdfLink: string
+  declare pdfLink: string | null
 
   @column()
   declare abstract: string

@@ -19,6 +19,7 @@ import EvaluationsController from '#controllers/evaluations_controller'
 import AuthorsController from '#controllers/authors_controller'
 import UsersController from '#controllers/users_controller'
 import UserBooksController from '#controllers/user_books_controller'
+import FilesController from '#controllers/files_controller'
 
 // Show all books
 router.get('/books', [BooksController, 'index'])
@@ -28,6 +29,10 @@ router.get('/categories', [CategoriesController, 'index'])
 
 // Show all books in one category
 router.get('/categories/:category_id/books', [CategoryBooksController, 'index'])
+
+// Get image and pdf
+router.get('/uploads/books/images/:filename', [FilesController, 'getImage'])
+router.get('/uploads/books/pdf/:filename', [FilesController, 'getPDF'])
 
 router
   .group(() => {
@@ -62,8 +67,8 @@ router
     router
       .group(() => {
         router.post('', [CategoriesController, 'store'])
-        router.put(':category_id', [CategoriesController, 'update'])
-        router.delete(':category_id', [CategoriesController, 'destroy'])
+        // router.put(':category_id', [CategoriesController, 'update'])
+        // router.delete(':category_id', [CategoriesController, 'destroy'])
       })
       .prefix('categories')
 
