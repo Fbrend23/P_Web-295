@@ -61,7 +61,7 @@ export default class BooksController {
 
     // 1. Handle Image
     if (data.image) {
-      const fileName = `${cuid}.${data.image.extname}`
+      const fileName = `${cuid()}.${data.image.extname}`
 
       await data.image.move(app.makePath('public/uploads/books/images'), {
         name: fileName,
@@ -72,7 +72,7 @@ export default class BooksController {
 
     // 2. Handle PDF
     if (data.pdf) {
-      const fileName = `${cuid}.${data.pdf.extname}`
+      const fileName = `${cuid()}.${data.pdf.extname}`
 
       await data.pdf.move(app.makePath('public/uploads/books/pdf'), {
         name: fileName,

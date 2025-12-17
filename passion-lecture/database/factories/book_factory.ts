@@ -12,11 +12,11 @@ export const BookFactory = factory
     return {
       title: faker.book.title(),
       numberOfPages: faker.number.int({ min: 10, max: 1000 }),
-      pdfLink: faker.internet.url(),
+      pdfLink: null,
       abstract: "C'est le livre de la jungle",
       editor: faker.book.publisher(),
       editionYear: faker.number.int({ min: 1800, max: 2025 }),
-      imagePath: '../../image.png',
+      imagePath: null,
       userId: faker.helpers.arrayElement(userIds),
       categoryId: faker.helpers.arrayElement(categoryIds),
       authorId: faker.helpers.arrayElement(authorIds),
