@@ -2,6 +2,7 @@ import Book from '#models/book'
 import BookPolicy from '#policies/book_policy'
 import { bookValidator } from '#validators/book'
 import { getBooksQueryValidator } from '#validators/get_book_query'
+import { cuid } from '@adonisjs/core/helpers'
 import type { HttpContext } from '@adonisjs/core/http'
 import app from '@adonisjs/core/services/app'
 
@@ -60,14 +61,24 @@ export default class BooksController {
 
     // 1. Handle Image
     if (data.image) {
-      await data.image.move(app.makePath('public/uploads/books/images'))
-      imagePath = `/uploads/books/images/${data.image.fileName}`
+      const fileName = `${cuid}.${data.image.extname}`
+
+      await data.image.move(app.makePath('public/uploads/books/images'), {
+        name: fileName,
+      })
+
+      imagePath = `/uploads/books/images/${fileName}`
     }
 
     // 2. Handle PDF
     if (data.pdf) {
-      await data.pdf.move(app.makePath('public/uploads/books/pdf'))
-      pdfLink = `/uploads/books/pdf/${data.pdf.fileName}`
+      const fileName = `${cuid}.${data.pdf.extname}`
+
+      await data.pdf.move(app.makePath('public/uploads/books/pdf'), {
+        name: fileName,
+      })
+
+      pdfLink = `/uploads/books/pdf/${fileName}`
     }
 
     // Recovery of the authenticated user
@@ -112,16 +123,26 @@ export default class BooksController {
       return response.unauthorized({ message: 'Unauthorized' })
     }
 
-    // 1. Handle Image
     if (data.image) {
-      await data.image.move(app.makePath('public/uploads/books/images'))
-      book.imagePath = `/uploads/books/images/${data.image.fileName}`
+      const fileName = `${cuid()}.${data.image.extname}`
+      console.log(fileName)
+
+      await data.image.move(app.makePath('public/uploads/books/images'), {
+        name: fileName,
+      })
+
+      book.imagePath = `/uploads/books/images/${fileName}`
     }
 
     // 2. Handle PDF
     if (data.pdf) {
-      await data.pdf.move(app.makePath('public/uploads/books/pdf'))
-      book.pdfLink = `/uploads/books/pdf/${data.pdf.fileName}`
+      const fileName = `${cuid()}.${data.pdf.extname}`
+
+      await data.pdf.move(app.makePath('public/uploads/books/pdf'), {
+        name: fileName,
+      })
+
+      book.pdfLink = `/uploads/books/pdf/${fileName}`
     }
 
     // 3. Merge other fields (excluding files which we handled above)
