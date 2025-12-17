@@ -132,6 +132,8 @@ export default class BooksController {
       })
 
       book.imagePath = `/uploads/books/images/${fileName}`
+    } else {
+      book.imagePath = null
     }
 
     // 2. Handle PDF
@@ -143,6 +145,8 @@ export default class BooksController {
       })
 
       book.pdfLink = `/uploads/books/pdf/${fileName}`
+    } else {
+      book.pdfLink = null
     }
 
     // 3. Merge other fields (excluding files which we handled above)

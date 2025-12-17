@@ -19,12 +19,18 @@ const bookValidator = vine.compile(
       return !!author
     }),
     numberOfPages: vine.number(),
-    pdf: vine.file({ extnames: ['pdf'], size: '5mb' }).optional(),
+    pdf: vine
+      .file({ extnames: ['pdf'], size: '5mb' })
+      .optional()
+      .nullable(),
     // pdfLink: vine.string().minLength(2).maxLength(255).optional(),
     editor: vine.string().minLength(2).maxLength(255),
     editionYear: vine.number(),
     abstract: vine.string().minLength(2).maxLength(255),
-    image: vine.file({ extnames: ['jpg', 'png', 'jpeg'], size: '5mb' }).optional(),
+    image: vine
+      .file({ extnames: ['jpg', 'png', 'jpeg'], size: '5mb' })
+      .optional()
+      .nullable(),
     // imagePath: vine.string().nullable().optional(),
   })
 )
