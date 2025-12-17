@@ -54,17 +54,21 @@ export default class BooksController {
 
   async store({ request, response, auth }: HttpContext) {
     // Retrieval of data sent by the client and validation of data
-    const {
-      title,
-      authorId,
-      categoryId,
-      numberOfPages,
-      pdfLink,
-      editor,
-      editionYear,
-      abstract,
-      imagePath,
-    } = await request.validateUsing(bookValidator)
+    const data = await request.validateUsing(bookValidator)
+    let imagePath
+    let pdfLink
+
+    // 1. Handle Image
+    if (data.image) {
+      await data.image.move(app.makePath('public/uploads/books/images'))
+      imagePath = `/uploads/books/images/${data.image.fileName}`
+    }
+
+    // 2. Handle PDF
+    if (data.pdf) {
+      await data.pdf.move(app.makePath('public/uploads/books/pdf'))
+      pdfLink = `/uploads/books/pdf/${data.pdf.fileName}`
+    }
 
     // Recovery of the authenticated user
     const user = auth.user!
@@ -72,16 +76,16 @@ export default class BooksController {
 
     // Creating a new book with validated data
     const book = await Book.create({
-      title,
-      authorId,
-      categoryId,
-      userId,
-      numberOfPages,
+      title: data.title,
+      authorId: data.authorId,
+      categoryId: data.categoryId,
+      numberOfPages: data.numberOfPages,
+      editor: data.editor,
+      editionYear: data.editionYear,
+      abstract: data.abstract,
       pdfLink,
-      editor,
-      editionYear,
-      abstract,
       imagePath,
+      userId,
     })
     return response.created(book)
   }
