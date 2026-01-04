@@ -8,7 +8,7 @@ export const EvaluationFactory = factory
     const userIds = (await User.all()).map((u) => u.id)
     const bookIds = (await Book.all()).map((b) => b.id)
     return {
-      note: faker.number.int({ min: 0, max: 5 }),
+      note: faker.number.int({ min: 1, max: 5 }),
       userId: faker.helpers.arrayElement(userIds),
       bookId: faker.helpers.arrayElement(bookIds),
     }
