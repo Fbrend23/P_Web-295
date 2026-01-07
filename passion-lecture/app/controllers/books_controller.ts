@@ -132,7 +132,7 @@ export default class BooksController {
       })
 
       book.imagePath = `/uploads/books/images/${fileName}`
-    } else {
+    } else if (data.removeImage) {
       book.imagePath = null
     }
 
@@ -145,7 +145,7 @@ export default class BooksController {
       })
 
       book.pdfLink = `/uploads/books/pdf/${fileName}`
-    } else {
+    } else if (data.removePDF) {
       book.pdfLink = null
     }
 

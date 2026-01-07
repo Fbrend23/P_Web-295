@@ -32,6 +32,8 @@ const bookValidator = vine.compile(
       .optional()
       .nullable(),
     // imagePath: vine.string().nullable().optional(),
+    removePDF: vine.boolean().optional(),
+    removeImage: vine.boolean().optional(),
   })
 )
 
