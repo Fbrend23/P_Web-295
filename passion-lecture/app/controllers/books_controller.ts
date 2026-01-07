@@ -11,8 +11,8 @@ export default class BooksController {
     const {
       page = 1,
       limit = 10,
-      sort = 'title',
-      order = 'asc',
+      sort,
+      order,
       categoryId,
       authorId,
       userId,
@@ -40,7 +40,7 @@ export default class BooksController {
         subQuery.whereILike('title', `%${search}%`) // si possible --> .orWhereILike('author_name', `%${search}%`)
       })
     }
-    query.orderBy(sort, order as 'asc' | 'desc')
+    query.orderBy(sort as 'title' | 'created_at', order as 'asc' | 'desc')
 
     const books = await query.paginate(page, limit)
 
