@@ -4,13 +4,18 @@ import User from '#models/user'
 import Category from '#models/category'
 import Author from '#models/author'
 
+let bookIndex = 1
+
 export const BookFactory = factory
   .define(Book, async ({ faker }) => {
     const userIds = (await User.all()).map((u) => u.id)
     const categoryIds = (await Category.all()).map((c) => c.id)
     const authorIds = (await Author.all()).map((a) => a.id)
+
+    const currentIndex = bookIndex++
+
     return {
-      title: faker.book.title(),
+      title: `Book ${currentIndex} - ${faker.book.title()}`,
       numberOfPages: faker.number.int({ min: 10, max: 1000 }),
       pdfLink: null,
       abstract: "C'est le livre de la jungle",

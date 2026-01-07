@@ -55,7 +55,7 @@ export default class BooksController {
 
   async store({ request, response, auth }: HttpContext) {
     // Retrieval of data sent by the client and validation of data
-    const data = await request.validateUsing(bookValidator)
+    const data = await request.validateUsing(bookValidator())
     let imagePath
     let pdfLink
 
@@ -116,7 +116,7 @@ export default class BooksController {
   }
 
   async update({ params, request, response, bouncer }: HttpContext) {
-    const data = await request.validateUsing(bookValidator)
+    const data = await request.validateUsing(bookValidator(params.book_id))
     const book = await Book.findOrFail(params.book_id)
 
     if (await bouncer.with(BookPolicy).denies('update', book)) {
