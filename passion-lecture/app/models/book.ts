@@ -39,6 +39,9 @@ export default class Book extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 
+  @column({ serializeAs: null })
+  declare epub: Buffer | null
+
   // FK
   @column()
   declare categoryId: number

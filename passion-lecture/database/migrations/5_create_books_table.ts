@@ -17,6 +17,9 @@ export default class extends BaseSchema {
       table.timestamp('created_at')
       table.timestamp('updated_at')
 
+      // BLOB
+      table.specificType('epub', 'LONGBLOB').nullable()
+
       // FK
       // 1 book -> 1 category
       table.integer('category_id').unsigned().references('id').inTable('categories').notNullable()
