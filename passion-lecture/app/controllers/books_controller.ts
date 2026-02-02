@@ -176,4 +176,16 @@ export default class BooksController {
     await book.delete()
     return response.ok(book)
   }
+
+  async download({ params, response }: HttpContext) {
+    const book = await Book.findOrFail(params.book_id)
+
+    // response
+    //   .header('Content-Type', 'application/epub+zip')
+    //   .header('Content-Disposition', `attachment; filename="${book.title}.epub"`)
+
+    response.header('Content-Disposition', `inline; filename="${book.title}.epub"`)
+
+    return response.send(book.epub)
+  }
 }

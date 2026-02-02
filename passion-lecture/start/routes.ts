@@ -41,6 +41,7 @@ router.group(() => {
       router.post('', [BooksController, 'store'])
       router.put(':book_id', [BooksController, 'update'])
       router.delete(':book_id', [BooksController, 'destroy'])
+      router.get(':book_id/download', [BooksController, 'download'])
     })
     .prefix('books')
   // CRUD comments
@@ -86,7 +87,6 @@ router
   .group(() => {
     router.post('register', [AuthController, 'register'])
     router.post('login', [AuthController, 'login'])
-    router.post('logout', [AuthController, 'logout'])
     router.post('logout', [AuthController, 'logout'])
   })
   .prefix('user')
