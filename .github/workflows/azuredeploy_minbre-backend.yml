@@ -27,7 +27,7 @@ jobs:
         working-directory: passion-lecture
         run: |
           npm ci
-          npm run build --ignore-ts-errors
+          node ace build --ignore-ts-errors
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
