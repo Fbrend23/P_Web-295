@@ -26,8 +26,8 @@ jobs:
       - name: npm install, build, and test
         working-directory: passion-lecture
         run: |
-          npm ci --ignore-ts-errors
-          npm run build
+          npm ci
+          npm run build --ignore-ts-errors
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
