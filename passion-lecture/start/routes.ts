@@ -20,7 +20,6 @@ import UsersController from '#controllers/users_controller'
 import UserBooksController from '#controllers/user_books_controller'
 import FilesController from '#controllers/files_controller'
 import TagsController from '#controllers/tags_controller'
-import Tag from '#models/tag'
 import TagBooksController from '#controllers/tag_books_controller'
 
 // Show all books
@@ -97,6 +96,9 @@ router
 // Tags
 router.get('tags', [TagsController, 'index'])
 router.post('tags', [TagsController, 'store'])
+
+// Tags of a book
+router.get('books/:book_id/tags', [BooksController, 'getTags'])
 
 // Books by tag
 router.get('tags/:tag_id/books', [TagBooksController, 'show'])

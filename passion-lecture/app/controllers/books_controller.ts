@@ -188,4 +188,26 @@ export default class BooksController {
 
     return response.send(book.epub)
   }
+
+  public async getTags({ params, response }: HttpContext) {
+    const bookId = params.book_id
+
+    // 1. Fetch the book and its tags
+    const book = await Book.query()
+      .where('id', bookId)
+      .preload('tags', (bookTagQuery) => {
+        // bookTagQuery refers to the @hasMany relationship in Book.ts
+        bookTagQuery.preload('tag') // This gets the actual Tag model data
+      })
+      .first()
+
+    if (!book) {
+      return response.notFound({ message: 'Book not found' })
+    }
+
+    // 2. Flatten the response so you just get a list of Tag objects
+    const tags = book.tags.map((bt) => bt.tag)
+
+    return response.ok(tags)
+  }
 }
