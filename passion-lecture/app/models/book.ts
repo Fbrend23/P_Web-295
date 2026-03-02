@@ -6,6 +6,7 @@ import Author from './author.js'
 import User from './user.js'
 import Comment from './comment.js'
 import Evaluation from './evaluation.js'
+import BookTag from './book_tag.js'
 
 export default class Book extends BaseModel {
   // Attributs
@@ -67,4 +68,7 @@ export default class Book extends BaseModel {
 
   @hasMany(() => Evaluation)
   declare evaluation: HasMany<typeof Evaluation>
+
+  @hasMany(() => BookTag)
+  declare tags: HasMany<typeof BookTag>
 }

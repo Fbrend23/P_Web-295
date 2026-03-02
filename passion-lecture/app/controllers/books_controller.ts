@@ -11,8 +11,8 @@ export default class BooksController {
     const {
       page = 1,
       limit = 10,
-      sort,
-      order,
+      sort = 'created_at',
+      order = 'asc',
       categoryId,
       authorId,
       userId,

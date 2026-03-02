@@ -19,6 +19,9 @@ import AuthorsController from '#controllers/authors_controller'
 import UsersController from '#controllers/users_controller'
 import UserBooksController from '#controllers/user_books_controller'
 import FilesController from '#controllers/files_controller'
+import TagsController from '#controllers/tags_controller'
+import Tag from '#models/tag'
+import TagBooksController from '#controllers/tag_books_controller'
 
 // Show all books
 router.get('/books', [BooksController, 'index'])
@@ -90,3 +93,12 @@ router
     router.post('logout', [AuthController, 'logout'])
   })
   .prefix('user')
+
+// Tags
+router.get('tags', [TagsController, 'index'])
+router.post('tags', [TagsController, 'store'])
+
+// Books by tag
+router.get('tags/:tag_id/books', [TagBooksController, 'show'])
+router.post('books/:book_id/tags/:tag_id', [TagBooksController, 'store'])
+router.delete('books/:book_id/tags/:tag_id', [TagBooksController, 'destroy'])
