@@ -11,15 +11,16 @@ export default class BooksController {
     const {
       page = 1,
       limit = 10,
-      sort,
-      order,
+      sort = 'created_at',   // default
+      order = 'asc',         // default
       categoryId,
       authorId,
       userId,
       search,
+      tagIds,
     } = await request.validateUsing(getBooksQueryValidator)
 
-    const query = Book.query().preload('category').preload('author').preload('user')
+    const query = Book.query().preload('category').preload('author').preload('user').preload('tags') 
 
     //Search filters
     if (categoryId) {
@@ -40,6 +41,15 @@ export default class BooksController {
         subQuery.whereILike('title', `%${search}%`) // si possible --> .orWhereILike('author_name', `%${search}%`)
       })
     }
+
+    // Tag filter
+    if (tagIds) {
+      const ids = tagIds.split(',').map(Number)
+      query.whereHas('tags', (builder) => {
+        builder.whereIn('tags.id', ids)
+      })
+    }
+
     query.orderBy(sort as 'title' | 'created_at', order as 'asc' | 'desc')
 
     const books = await query.paginate(page, limit)
@@ -48,7 +58,7 @@ export default class BooksController {
     books.baseUrl('/books') // --> needed ???
 
     // Keeps settings (search, sort, etc.)
-    books.queryString({ page, limit, sort, order, categoryId, authorId, userId, search })
+    books.queryString({ page, limit, sort, order, categoryId, authorId, userId, search, tagIds })
 
     return response.ok(books)
   }
@@ -112,6 +122,9 @@ export default class BooksController {
     await book.load('category', (query) => {
       query.select('label')
     })
+    await book.load('tags', (query) => {
+  query.select('id', 'name');
+});
     return response.ok(book)
   }
 
@@ -187,5 +200,27 @@ export default class BooksController {
     response.header('Content-Disposition', `inline; filename="${book.title}.epub"`)
 
     return response.send(book.epub)
+  }
+
+  // Add a tag to a book
+  async addTag({ params, request, response }: HttpContext) {
+    const book = await Book.findOrFail(params.book_id)
+    const { tagId } = request.body()
+
+    await book.related('tags').attach([tagId])
+    await book.load('tags')
+
+    return response.ok(book)
+  }
+
+  // Delete a tag from a book
+  async removeTag({ params, request, response }: HttpContext) {
+    const book = await Book.findOrFail(params.book_id)
+    const { tagId } = request.body()
+
+    await book.related('tags').detach([tagId])
+    await book.load('tags')
+
+    return response.ok(book)
   }
 }

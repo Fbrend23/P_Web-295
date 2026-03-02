@@ -1,0 +1,22 @@
+meta {
+  name: CREATE A TAG
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:3333/tags
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Test"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

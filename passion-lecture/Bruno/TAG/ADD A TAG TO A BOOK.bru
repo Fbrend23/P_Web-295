@@ -1,0 +1,22 @@
+meta {
+  name: ADD A TAG TO A BOOK
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3333/books/2/addTag
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "tagId": 6
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

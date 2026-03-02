@@ -16,6 +16,7 @@ const getBooksQueryValidator = vine.compile(
       })
       .optional(),
     search: vine.string().trim().minLength(1).optional(),
+    tagIds: vine.string().optional(),
   })
 )
 

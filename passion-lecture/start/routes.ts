@@ -19,6 +19,7 @@ import AuthorsController from '#controllers/authors_controller'
 import UsersController from '#controllers/users_controller'
 import UserBooksController from '#controllers/user_books_controller'
 import FilesController from '#controllers/files_controller'
+import TagsController from '#controllers/tags_controller'
 
 // Show all books
 router.get('/books', [BooksController, 'index'])
@@ -32,6 +33,10 @@ router.get('/categories/:category_id/books', [CategoryBooksController, 'index'])
 // Get image and pdf
 router.get('/uploads/books/images/:fileName', [FilesController, 'getImage'])
 router.get('/uploads/books/pdf/:fileName', [FilesController, 'getPDF'])
+
+// Tags
+router.get('/tags', [TagsController, 'index'])       // Liste tous les tags
+router.post('/tags', [TagsController, 'store'])      // Crée un nouveau tag
 
 router.group(() => {
   // CRUD Books
@@ -59,6 +64,12 @@ router.group(() => {
     })
     .prefix('books/:book_id')
 
+  router
+    .group(() => {
+      router.post('addTag', [BooksController, 'addTag'])
+      router.post('removeTag', [BooksController, 'removeTag'])
+    })
+    .prefix('books/:book_id')
   // CRUD authors
   router.resource('authors', AuthorsController).apiOnly()
 
