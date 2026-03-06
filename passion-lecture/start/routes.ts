@@ -92,3 +92,11 @@ router
     router.post('logout', [AuthController, 'logout']).use(middleware.auth())
   })
   .prefix('user')
+router.get('/auth/login-microsoft', [AuthController, 'loginMicrosoft'])
+router.get('/auth/callback', [AuthController, 'callbackMicrosoft'])
+router
+  .get('/auth/me', async ({ auth }) => {
+    await auth.check()
+    return auth.user
+  })
+  .use(middleware.auth())
