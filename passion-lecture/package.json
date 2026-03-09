@@ -57,6 +57,7 @@
     "@adonisjs/cors": "^2.2.1",
     "@adonisjs/lucid": "^21.6.1",
     "@vinejs/vine": "^3.0.1",
+    "epub2": "^3.0.2",
     "luxon": "^3.7.2",
     "mysql2": "^3.15.0",
     "reflect-metadata": "^0.2.2"

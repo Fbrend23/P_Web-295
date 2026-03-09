@@ -47,20 +47,20 @@ export default class BookTagsController {
   public async show({ params, response }: HttpContext) {
     const { tag_id } = params
 
-    // 1. Safeguard: Check if the tag exists first
     const tag = await Tag.find(tag_id)
     if (!tag) {
       return response.notFound({ error: 'Tag not found' })
     }
 
-    // 2. Query the BookTag model to find all entries for this tag
-    // We preload the 'game' (as you named it in your model) to get the actual book data
+    // Correction ici : On descend dans la relation 'book' pour charger ses propres relations
     const taggedBooks = await BookTag.query()
       .where('tagId', tag_id)
-      .preload('book') // Loading the 'Book' model via the 'game' relationship
+      .preload('book', (bookQuery) => {
+        bookQuery.preload('author') // <--- IMPORTANT : Charge l'auteur du livre
+        bookQuery.preload('category') // <--- IMPORTANT : Charge la catégorie du livre
+      })
       .exec()
 
-    // 3. Clean up the response to just return the book objects
     const books = taggedBooks.map((bt) => bt.book)
 
     return response.ok(books)
